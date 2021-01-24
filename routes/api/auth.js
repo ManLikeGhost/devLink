@@ -1,10 +1,12 @@
-const express = require('express');
+const express = require( 'express' );
 const router = express.Router();
 const auth = require( '../../middleware/auth' );
 const User = require( '../../models/User' );
-const { check, validationResult } = require('express-validator');
-const jwt = require('jsonwebtoken');
-const config = require('config');
+const { check, validationResult } = require( 'express-validator' );
+const jwt = require( 'jsonwebtoken' );
+const config = require( 'config' );
+const bcrypt = require( 'bcryptjs' );
+
 
 // @route    GET api/auth
 // @desc     Test route
@@ -47,30 +49,18 @@ router.post(
 			if (!user) {
                 return res
                     .status( 400 )
-                    .json( { errors: [ { msg: 'user already exists' } ] } );
+                    .json( { errors: [ { msg: 'Invalid Credentials' } ] } );
 			}
 
-			// Get users gravatar
-			const avatar = gravatar.url(email, {
-				s: '200',
-				r: 'pg',
-				d: 'mm',
-			});
+            const isMatch = await bcrypt.compare( password, user.password );
 
-			user = new User({
-				name,
-				email,
-				avatar,
-				password,
-			});
+            if ( !isMatch ) {
+                return res
+                    .status( 400 )
+                    .json( { errors: [ { msg: 'Invalid Credentials ' } ] } );
+            }
 
-			// Encrypt password
-            const salt = await bcrypt.genSalt( 10 );
-                
-            user.password = await bcrypt.hash( password, salt );
-            await user.save();
-            
-
+			
 			// Return jsonwebtoken
             const payload = {
                 user: {
