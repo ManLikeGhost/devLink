@@ -102,6 +102,7 @@ router.post(
 
                 await profile.save();
                 res.json( profile );
+                //add changes to this 
             } catch (error) {
                 console.error( error.message );
                 res.status( 500 ).send( 'Server Error' );
