@@ -110,4 +110,10 @@ router.post(
 		}
 );
 
+// @route    Get api/profile
+// @desc     Get all profiles
+// @access   Public
+router.get( '/', async ( req, res ) => {
+    
+} );
 module.exports = router;
