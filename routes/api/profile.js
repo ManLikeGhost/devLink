@@ -97,12 +97,12 @@ router.post(
                     return res.json( profile );
                 }
 
-                //create
+                //create new profile.
                 profile = new Profile( profileFeilds );
-                // even more changes to check 
+                
                 await profile.save();
                 res.json( profile );
-                //add changes to this 
+                 
             } catch (error) {
                 console.error( error.message );
                 res.status( 500 ).send( 'Server Error' );
