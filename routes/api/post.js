@@ -5,9 +5,9 @@ const { check, validationResult } = require( 'express-validator' );
 const User = require( '../../models/User' );
 const Post = require( '../../models/Post' );
 const Profile = require('../../models/Profile');
-const { json } = require( 'express' );
+const { json, request } = require( 'express' );
 
-// @route    Post api/post
+// @route    POST api/post
 // @access   Private
 // @desc     Create a post
 router.post( '/', [ auth, [
@@ -45,7 +45,7 @@ router.post( '/', [ auth, [
         }
 } );
 
-// @route    Get api/post
+// @route    GET api/post
 // @access   Private
 // @desc     Get all post
 
@@ -59,7 +59,7 @@ router.get( '/', auth, async ( req, res ) => {
     }
 } );
 
-// @route    Get api/post/:id
+// @route    GET api/post/:id
 // @access   Private
 // @desc     Get single post by ID
 
@@ -67,12 +67,45 @@ router.get('/:id', auth, async (req, res) => {
 	try {
 		const singlePost = await Post.findById(req.params.id);
         
+        if ( !singlePost ) {
+            return res.status( 404 ).json({msg: 'Post not Found'});
+        }
         
         res.json( singlePost );
 	} catch (error) {
 		console.error(error.message);
+        if ( error.kind === 'ObjectId' ) {
+            return res.status(404).json({ msg: 'Post not Found' });
+        }
+        res.status( 500 ).send( 'Server Error' );
+	}
+} );
+
+// @route    DELETE api/post/:id
+// @access   Private
+// @desc     Delete single post by ID
+
+router.delete('/:id', auth, async (req, res) => {
+	try {
+		const singlePost = await Post.findById(req.params.id);
+        
+        if (!singlePost) {
+					return res.status(404).json({ msg: 'Post not Found' });
+				}
+        //Check who the user is
+        if (singlePost.user.toString() !== req.user.id) {
+            return res.status(401).json( {msg: 'Unathorized User'} )       
+        }
+        await singlePost.remove();
+        res.json( { msg:'Post Removed' } );
+	} catch (error) {
+        console.error( error.message );
+        if (error.kind === 'ObjectId') {
+            return res.status(404).json({ msg: 'Post not Found' });
+        }
 		res.status(500).send('Server Error');
 	}
 });
+
 
 module.exports = router;
