@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react'
-import axios from 'axios';
+
 
 
 const Register = () => {
@@ -21,7 +21,7 @@ const Register = () => {
 		if ( password !== password2 ) {
 			console.log( 'Passwords do not match' );
 		} else {
-			
+			console.log( 'Success' );
 		}
 	};
     return (
