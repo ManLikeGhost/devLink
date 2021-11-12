@@ -1,7 +1,11 @@
 import React, { Fragment, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { setAlert } from '../../actions/alert';
+import { login } from '../../actions/auth';
+import PropTypes from 'prop-types';
 
-const Login = () => {
+const Login = ({ setAlert, login, isAuthenticated }) => {
 	const [formData, setFormData] = useState({
 		
 		email: '',
@@ -15,8 +19,18 @@ const Login = () => {
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
+		if ( email === '' && password === '' && password.length < 6 ) {
+			setAlert( 'Fill the required feilds', 'danger' );
+		} else {
+			login( email, password );
+		}
 		console.log('Success');
 	};
+
+	// redirect if logged in
+	if (isAuthenticated) {
+		return <Redirect to='/dashboard' />
+	}
 	return (
 		<Fragment>
 			<h1 className='large text-primary'>Sign In</h1>
@@ -32,7 +46,7 @@ const Login = () => {
 						name='email'
 						value={email}
 						onChange={(e) => onChange(e)}
-						required
+						// required
 					/>
 				</div>
 				<div className='form-group'>
@@ -40,7 +54,7 @@ const Login = () => {
 						type='password'
 						placeholder='Password'
 						name='password'
-						minLength='6'
+						// minLength='6'
 						value={password}
 						onChange={(e) => onChange(e)}
 					/>
@@ -54,4 +68,13 @@ const Login = () => {
 	);
 };
 
-export default Login;
+Login.propTypes = {
+	setAlert: PropTypes.func.isRequired,
+	login: PropTypes.func.isRequired,
+	isAuthenticated: PropTypes.bool
+}
+
+const mapStateToProps = state => ( {
+	isAuthenticated: state.auth.isAuthenticated
+} );
+export default connect(mapStateToProps, { setAlert, login })(Login);
