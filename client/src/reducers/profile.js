@@ -6,15 +6,16 @@ const initialState = {
     error: {}
 }
 
-// export default function profile(state = initialState, action) {
-//     const { type, payload } = action;
+export default function profile(state = initialState, action) {
+    const { type, payload } = action;
 
-//     // switch (type) {
-//     //     case value:
-            
-//     //         break;
+    switch (type) {
+        case GET_PROFILE:
+            return {
+                    //block of code
+                }
     
-//     //     default:
-//     //         break;
-//     // }
-// }
+        default:
+            break;
+    }
+}
