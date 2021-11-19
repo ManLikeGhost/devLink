@@ -14,10 +14,17 @@ export default function profile(state = initialState, action) {
     switch (type) {
         case GET_PROFILE:
             return {
-                    //block of code
-                }
-    
+                ...state,
+                profile: payload,
+                loading: false,
+            };
+        
+        case PROFILE_ERROR:
+            return {
+                ...state,
+                error: payload
+            };
         default:
-            break;
+            return state;
     }
 }
