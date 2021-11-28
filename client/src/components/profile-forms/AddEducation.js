@@ -4,6 +4,7 @@ import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addEducation } from '../../actions/profile';
 
+
 const AddEducation = ({ addEducation, history }) => {
 	const [formData, setformData] = useState({
 		school: '',
@@ -82,10 +83,12 @@ const AddEducation = ({ addEducation, history }) => {
 						<input
 							type='checkbox'
 							name='current'
-							value=''
 							checked={current}
 							value={current}
-							onChange={() => setFormData({ ...formData, current: !current })}
+							onChange={(e) => {
+								setformData({ ...formData, current: !current });
+								toggleDisabled(!toDateDisabled);
+							}}
 						/>{' '}
 						Current School or Bootcamp
 					</p>
