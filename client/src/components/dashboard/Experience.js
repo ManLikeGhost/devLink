@@ -17,6 +17,9 @@ const Experience = ({ experience }) => {
 					<Moment format='dd/mm/yyyy'>{exp.to}</Moment>
 				)}
 			</td>
+			<td>
+				<button className='btn btn-danger'>Delete</button>
+			</td>
 		</td>
 	));
 
