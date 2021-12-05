@@ -10,7 +10,7 @@ import {
 	LOGOUT,
 	CLEAR_PROFILE,
 } from './types';
-import setAuthToken from '../util/setAuthToken';
+import setAuthToken from '../utils/setAuthToken';
 
 //Load User
 export const loadUser = () => async (dispatch) => {

@@ -18,7 +18,7 @@ import './App.css';
 import { loadUser } from './actions/auth';
 import { Provider } from 'react-redux';
 import store from './store';
-import setAuthToken from './util/setAuthToken';
+import setAuthToken from './utils/setAuthToken';
 
 //check if localstorage is empty
 if (localStorage.token) {

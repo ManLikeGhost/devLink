@@ -11,7 +11,11 @@ const ProfileExperience = ({
 			<p>
 				<Moment format='DD/MM/YYYY'>{from}</Moment> -{' '}
 				{!to ? 'Now' : <Moment format='DD/MM/YYYY'>{to}</Moment>}
-			</p>
+            </p>
+            <p><strong>Position: </strong>{title}</p>
+            <p>
+              <strong>Description: </strong>{description}
+            </p>
 		</div>
 	);
 };
