@@ -57,7 +57,7 @@ export const getProfileById = (userId) => async (dispatch) => {
 		const res = await axios.get(`api/profile/user/${userId}`);
 
 		dispatch({
-			type: GET_ALL_PROFILES,
+			type: GET_PROFILE,
 			payload: res.data,
 		});
 	} catch (err) {
@@ -235,7 +235,6 @@ export const deleteEducation = (id) => async (dispatch) => {
 export const deleteAccount = () => async (dispatch) => {
 	if (window.confirm('Are you sure you want to continue to do this ?')) {
 		try {
-			
 			await axios.delete('/api/profile');
 
 			dispatch({
