@@ -7,7 +7,9 @@ const Post = require('../../models/Post');
 const { check, validationResult } = require('express-validator');
 const request = require('request');
 const config = require('config');
-const { response } = require('express');
+const { response } = require( 'express' );
+
+
 // @route    GET api/profile/me
 // @access   Private
 // @desc     Get current users profile
