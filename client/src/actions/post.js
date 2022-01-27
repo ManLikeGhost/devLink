@@ -73,16 +73,23 @@ export const deletePost = (postId) => async (dispatch) => {
 
 
 // Add Post
-export const addPost = (postId) => async (dispatch) => {
+export const addPost = (formData) => async (dispatch) => {
+	const config = {
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	}
+	
 	try {
-		const res = await axios.delete(`/api/post/${postId}`);
+		const res = await axios.post( '/api/post', formData, config );
+		
 		dispatch({
 			type: ADD_POST,
-			payload: postId,
+			payload: res.data,
 		} );
 		
 		dispatch( 
-			setAlert('Post Removed', 'success')
+			setAlert('Post Created', 'success')
 		)
 	} catch (err) {
 		dispatch({

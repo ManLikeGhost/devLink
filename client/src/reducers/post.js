@@ -1,4 +1,10 @@
-import { GET_POSTS, POST_ERROR, UPDATE_LIKES } from '../actions/types.js';
+import {
+	GET_POSTS,
+	POST_ERROR,
+	UPDATE_LIKES,
+	DELETE_POST,
+	ADD_POST,
+} from '../actions/types.js';
 
 const initialState = {
 	posts: [],
@@ -17,12 +23,24 @@ function postReducer(state = initialState, action) {
 				posts: payload,
 				loading: false,
 			};
+		case ADD_POST:
+			return {
+				...state,
+				posts: [payload, ...state.posts],
+				loading: false,
+			};
 		case UPDATE_LIKES:
 			return {
 				...state,
 				post: state.posts.map((post) =>
 					post._id === payload.id ? { ...post, likes: payload.likes } : post
 				),
+				loading: false,
+			};
+		case DELETE_POST:
+			return {
+				...state,
+				posts: state.posts.filter((post) => post._id !== payload),
 				loading: false,
 			};
 		case POST_ERROR:
